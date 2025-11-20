@@ -30,8 +30,8 @@ const ContactPage = () => {
                     <div>
                       <h3 className="font-mono font-bold mb-2">Address</h3>
                       <p className="text-muted-foreground">
-                        170 Boll St<br />
-                        Dallas, TX, 75204, USA
+                        4600 Smith Rd Suite C-8<br />
+                        Norwood, OH 45212, United States
                       </p>
                     </div>
                   </div>
@@ -41,8 +41,7 @@ const ContactPage = () => {
                     <div>
                       <h3 className="font-mono font-bold mb-2">Phone</h3>
                       <p className="text-muted-foreground">
-                        +1 (415)-493-7014<br />
-                        +1 (415)-289-9054
+                        +1 (979) 217-2061
                       </p>
                     </div>
                   </div>
@@ -52,8 +51,8 @@ const ContactPage = () => {
                     <div>
                       <h3 className="font-mono font-bold mb-2">Email</h3>
                       <p className="text-muted-foreground">
-                        info@trustfunds.com<br />
-                        support@trustfunds.com
+                        info@eagleloancompany.com<br />
+                        support@eagleloancompany.com
                       </p>
                     </div>
                   </div>

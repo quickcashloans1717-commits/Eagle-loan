@@ -26,7 +26,7 @@ const faqs = [
   },
   {
     question: "Are there any application fees?",
-    answer: "No, applying for a loan with QuickCashLoans is completely free. We only charge interest and any applicable fees once your loan is approved and disbursed. All costs are clearly outlined before you sign.",
+    answer: "No, applying for a loan with Eagle Loan Company is completely free. We only charge interest and any applicable fees once your loan is approved and disbursed. All costs are clearly outlined before you sign.",
   },
   {
     question: "Can I repay my loan early?",

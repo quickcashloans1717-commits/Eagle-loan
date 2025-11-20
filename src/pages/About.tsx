@@ -24,12 +24,12 @@ const About = () => {
           </div>
           <div className="max-w-4xl mx-auto">
             <h1 className="text-5xl md:text-7xl font-bold mb-8">
-              About <span className="text-accent">Trust Lending Funds</span>
+              About <span className="text-accent">Eagle Loan Company</span>
             </h1>
             
             <div className="space-y-8 text-lg text-muted-foreground">
               <p>
-                Trust Lending Funds is a leading financial services provider dedicated to empowering individuals and businesses with tailored lending solutions. Since our inception, we've been committed to making financing accessible, transparent, and efficient - with trust at the core of everything we do.
+                Eagle Loan Company is a leading financial services provider dedicated to empowering individuals and businesses with tailored lending solutions. Since our inception, we've been committed to making financing accessible, transparent, and efficient - with trust at the core of everything we do.
               </p>
               
               <p>

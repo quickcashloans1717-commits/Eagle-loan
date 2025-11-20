@@ -1,0 +1,41 @@
+services:
+  # Backend Web Service
+  - type: web
+    name: eagle-loans-backend
+    env: node
+    region: oregon
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    rootDir: server
+    envVars:
+      - key: PORT
+        value: 10000
+      - key: NODE_ENV
+        value: production
+      - key: ALLOWED_ORIGINS
+        value: https://eagleloans.site,https://www.eagleloans.site
+        sync: false
+      - key: SMTP_HOST
+        value: mail.eagleloans.site
+      - key: SMTP_PORT
+        value: 465
+      - key: SMTP_USER
+        value: company@eagleloans.site
+      - key: SMTP_PASS
+        sync: false  # Set this manually in Render dashboard
+      - key: RECIPIENT_EMAIL
+        value: company@eagleloans.site
+      - key: EMAIL_FROM_NAME
+        value: Eagle Loans Applications
+
+  # Frontend Static Site
+  - type: static
+    name: eagle-loans-frontend
+    buildCommand: npm install && npm run build
+    publishPath: dist
+    envVars:
+      - key: VITE_API_URL
+        value: https://api.eagleloans.site
+        sync: false  # Update after backend is deployed
+

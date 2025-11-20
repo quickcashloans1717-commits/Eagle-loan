@@ -12,12 +12,11 @@ const Contact = () => {
             <div className="space-y-4 text-muted-foreground">
               <div>
                 <p className="font-mono font-bold text-foreground mb-1">Address</p>
-                <p>170 Boll St,<br />Dallas, TX, 75204, USA</p>
+                <p>4600 Smith Rd Suite C-8<br />Norwood, OH 45212, United States</p>
               </div>
               <div>
                 <p className="font-mono font-bold text-foreground mb-1">Contacts</p>
-                <p>+1 (415)-493-7014</p>
-                <p>+1 (415)-289-9054</p>
+                <p>+1 (979) 217-2061</p>
               </div>
             </div>
           </div>

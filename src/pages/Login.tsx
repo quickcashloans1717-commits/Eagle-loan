@@ -93,7 +93,7 @@ const Login = () => {
                   <Button 
                     type="submit" 
                     disabled={isLoading}
-                    className="w-full bg-green-600 text-white font-bold py-2 rounded-md hover:bg-green-700"
+                    className="w-full bg-accent text-accent-foreground font-bold py-2 rounded-md hover:bg-accent/90"
                   >
                     {isLoading ? "Logging in..." : "Login"}
                   </Button>
@@ -164,7 +164,7 @@ const Login = () => {
                   <Button 
                     type="submit" 
                     disabled={isLoading}
-                    className="w-full bg-green-600 text-white font-bold py-2 rounded-md hover:bg-green-700"
+                    className="w-full bg-accent text-accent-foreground font-bold py-2 rounded-md hover:bg-accent/90"
                   >
                     {isLoading ? "Creating account..." : "Create Account"}
                   </Button>

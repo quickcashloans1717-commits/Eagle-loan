@@ -44,7 +44,7 @@ SMTP_PORT=587
 SMTP_USER=your-hostinger-email@example.com
 SMTP_PASS=your-email-password-or-app-password
 RECIPIENT_EMAIL=where-you-want-to-receive-submissions@example.com
-EMAIL_FROM_NAME=QuickCashLoans Applications
+EMAIL_FROM_NAME=Eagle Loan Company Applications
 ```
 
 Add additional comma-separated origins to `ALLOWED_ORIGINS` for staging/production domains.

@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import trustLendingLogo from "@/assets/trust-lending-logo-hd.png";
+import eagleLoanLogo from "@/assets/eagle-loan-logo.jpg";
 import { Shield, Lock, Award } from "lucide-react";
 
 const Footer = () => {
@@ -9,7 +9,7 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
           <div className="col-span-1 md:col-span-2">
             <Link to="/" className="flex items-center hover:opacity-80 transition-opacity mb-4">
-              <img src={trustLendingLogo} alt="Trust Lending Funds" className="h-28 md:h-32 lg:h-36 w-auto object-contain" />
+              <img src={eagleLoanLogo} alt="Eagle Loan Company" className="h-28 md:h-32 lg:h-36 w-auto object-contain" />
             </Link>
             <p className="text-sm text-muted-foreground mb-4">
               Secure. Reliable. Funded. Your trusted partner for personal, business, and startup loans.
@@ -51,7 +51,7 @@ const Footer = () => {
         </div>
         
         <div className="border-t border-border pt-6 text-center text-sm text-muted-foreground">
-          <p>&copy; {new Date().getFullYear()} Trust Lending Funds. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} Eagle Loan Company. All rights reserved.</p>
         </div>
       </div>
     </footer>

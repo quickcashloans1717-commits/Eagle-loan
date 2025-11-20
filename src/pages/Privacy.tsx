@@ -94,9 +94,9 @@ const Privacy = () => {
                 <h2 className="text-2xl font-mono font-bold text-foreground mb-4">9. Contact Us</h2>
                 <p>
                   For questions or concerns about this privacy policy or our data practices, contact us at:<br />
-                  Email: privacy@quickcashloans.com<br />
-                  Phone: +1 (415) 326-6098<br />
-                  Address: 595 Market Street, Suite 200, San Francisco, CA 94105
+                  Email: privacy@eagleloancompany.com<br />
+                  Phone: +1 (979) 217-2061<br />
+                  Address: 4600 Smith Rd Suite C-8, Norwood, OH 45212, United States
                 </p>
               </section>
             </div>
