@@ -13,9 +13,25 @@ const allowedOrigins = (process.env.ALLOWED_ORIGINS || "").split(",")
   .map((origin) => origin.trim())
   .filter(Boolean);
 
+// Add localhost origins for development
+const isDevelopment = process.env.NODE_ENV !== "production";
+const defaultDevOrigins = [
+  "http://localhost:8081",
+  "http://localhost:3000",
+  "http://localhost:5173",
+  "http://127.0.0.1:8081",
+  "http://127.0.0.1:3000",
+  "http://127.0.0.1:5173",
+];
+
+const allAllowedOrigins = isDevelopment 
+  ? [...new Set([...allowedOrigins, ...defaultDevOrigins])]
+  : allowedOrigins;
+
 console.log(`[INFO] Starting Loan API Server...`);
 console.log(`[INFO] Port: ${port}`);
-console.log(`[INFO] Allowed Origins: ${allowedOrigins.join(", ")}`);
+console.log(`[INFO] Environment: ${process.env.NODE_ENV || "development"}`);
+console.log(`[INFO] Allowed Origins: ${allAllowedOrigins.join(", ") || "All (development)"}`);
 
 // Middleware Setup
 app.use(helmet({ contentSecurityPolicy: false }));
@@ -25,7 +41,18 @@ app.use(express.urlencoded({ limit: "5mb", extended: true }));
 // CORS Configuration
 app.use(cors({
   origin: (origin, callback) => {
-    if (!origin || allowedOrigins.length === 0 || allowedOrigins.includes(origin)) {
+    // Allow requests with no origin (mobile apps, Postman, etc.)
+    if (!origin) {
+      return callback(null, true);
+    }
+
+    // In development, allow all localhost origins
+    if (isDevelopment && (origin.includes("localhost") || origin.includes("127.0.0.1"))) {
+      return callback(null, true);
+    }
+
+    // Check against allowed origins list
+    if (allAllowedOrigins.length === 0 || allAllowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
       console.warn(`[WARN] CORS blocked request from origin: ${origin}`);
@@ -33,9 +60,14 @@ app.use(cors({
     }
   },
   credentials: true,
-  methods: ["GET", "POST", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"],
+  methods: ["GET", "POST", "OPTIONS", "PUT", "DELETE", "PATCH"],
+  allowedHeaders: ["Content-Type", "Authorization", "Accept", "X-Requested-With"],
+  exposedHeaders: ["Content-Type", "Authorization"],
+  optionsSuccessStatus: 200, // Some legacy browsers choke on 204
 }));
+
+// Explicit OPTIONS handler for preflight requests
+app.options("*", cors());
 
 // Rate Limiting
 const limiter = rateLimit({
@@ -67,9 +99,11 @@ app.get("/api/test", (req, res) => {
 
 // Main Loan Application Endpoint
 app.post("/api/loan-application", async (req, res) => {
+  const requestId = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+
   try {
-    console.log("[REQUEST] Loan application received");
-    
+    console.log(`[REQUEST] ${requestId} - Loan application received`);
+
     const data = req.body;
 
     // Validate payload
@@ -125,30 +159,33 @@ app.post("/api/loan-application", async (req, res) => {
 
     // Prepare data for email
     const applicationData = {
+      requestId,
       timestamp: new Date().toISOString(),
       ...data,
     };
 
-    console.log("[INFO] Sending email notification...");
+    console.log(`[INFO] ${requestId} - Sending email notification...`);
     
     // Send email
     await sendLoanApplicationEmail(applicationData);
 
-    console.log("[SUCCESS] Application processed successfully");
+    console.log(`[SUCCESS] ${requestId} - Application processed successfully`);
     
     res.status(200).json({ 
       success: true,
       message: "Loan application submitted successfully",
+      requestId,
       timestamp: new Date().toISOString(),
     });
 
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : String(error);
-    console.error(`[ERROR] ${errorMessage}`, error);
+    console.error(`[ERROR] ${requestId} - ${errorMessage}`, error);
     
     res.status(500).json({ 
       success: false,
       message: "Failed to submit loan application. Please try again.",
+      requestId,
       error: process.env.NODE_ENV === "development" ? errorMessage : undefined,
     });
   }

