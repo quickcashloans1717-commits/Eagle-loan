@@ -19,6 +19,15 @@ Complete guide to deploy Eagle Loans application on Namecheap hosting with cPane
 
 ---
 
+## 📚 Need Help Uploading Files?
+
+If you're having trouble uploading files to `api.eagleloans.site`, see:
+- **Quick Guide**: `QUICK_UPLOAD_NAMEcheap.md` (Simplified instructions)
+- **Detailed Guide**: `NAMECHEAP_UPLOAD_GUIDE.md` (Step-by-step with all methods)
+- **Checklist**: `UPLOAD_CHECKLIST.md` (Quick checklist)
+
+---
+
 ## 🔧 Step 1: Backend API Deployment
 
 ### 1.1 Create API Subdomain
