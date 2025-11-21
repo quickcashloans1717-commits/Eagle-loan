@@ -1,0 +1,13 @@
+# Backend API .htaccess for Namecheap
+# Place this in /home/yourusername/api.eagleloans.site/.htaccess
+
+RewriteEngine On
+
+# Proxy requests to Node.js server on port 10000
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ http://localhost:10000/$1 [P,L]
+
+# If using cPanel Node.js App Manager, you may not need this file
+# Remove it if routing is handled automatically
+
