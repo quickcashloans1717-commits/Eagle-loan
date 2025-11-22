@@ -18,9 +18,9 @@ git push origin main
 ### Step 3: Add Environment Variables
 In Vercel project settings, add these:
 
-**Frontend:**
-- `VITE_SUPABASE_URL` = your_supabase_url
-- `VITE_SUPABASE_PUBLISHABLE_KEY` = your_supabase_key
+**Frontend (OPTIONAL - only if you use Supabase):**
+- `VITE_SUPABASE_URL` = your_supabase_url (skip if not using Supabase)
+- `VITE_SUPABASE_PUBLISHABLE_KEY` = your_supabase_key (skip if not using Supabase)
 
 **Backend (for email):**
 - `SMTP_HOST` = mail.eagleloans.site

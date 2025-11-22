@@ -44,7 +44,9 @@ VITE_SUPABASE_URL=your_supabase_url_here
 VITE_SUPABASE_PUBLISHABLE_KEY=your_supabase_key_here
 ```
 
-> **Note**: `VITE_API_URL` is optional. If not set, the app will use relative paths to call the API endpoints (recommended for Vercel).
+> **Note**: 
+> - `VITE_SUPABASE_URL` and `VITE_SUPABASE_PUBLISHABLE_KEY` are **OPTIONAL**. Your app currently doesn't use Supabase features (login/signup are simulated). Only add these if you plan to use Supabase in the future.
+> - `VITE_API_URL` is also optional. If not set, the app will use relative paths to call the API endpoints (recommended for Vercel).
 
 ### Backend Environment Variables (for Serverless Functions)
 
