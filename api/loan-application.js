@@ -90,8 +90,15 @@ export default async function handler(req, res) {
 
     console.log(`[INFO] ${requestId} - Sending email notification...`);
 
-    // Send email
-    await sendLoanApplicationEmail(applicationData);
+    // Send email (catch errors but don't fail the request if email fails)
+    try {
+      await sendLoanApplicationEmail(applicationData);
+      console.log(`[SUCCESS] ${requestId} - Email sent successfully`);
+    } catch (emailError) {
+      console.error(`[ERROR] ${requestId} - Email failed but continuing:`, emailError);
+      // Don't throw - allow request to succeed even if email fails
+      // Application data is still processed
+    }
 
     console.log(`[SUCCESS] ${requestId} - Application processed successfully`);
 
@@ -103,13 +110,19 @@ export default async function handler(req, res) {
     });
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : String(error);
-    console.error(`[ERROR] ${requestId} - ${errorMessage}`, error);
+    const errorStack = error instanceof Error ? error.stack : undefined;
+    
+    console.error(`[ERROR] ${requestId} - ${errorMessage}`);
+    console.error(`[ERROR] ${requestId} - Stack:`, errorStack);
+    console.error(`[ERROR] ${requestId} - Full error:`, error);
 
+    // Return more detailed error in production for debugging
     return res.status(500).json({
       success: false,
       message: "Failed to submit loan application. Please try again.",
       requestId,
-      error: process.env.NODE_ENV === "development" ? errorMessage : undefined,
+      error: errorMessage, // Show error message in production too
+      timestamp: new Date().toISOString(),
     });
   }
 }
