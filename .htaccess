@@ -2,6 +2,9 @@
   RewriteEngine On
   RewriteBase /
   
+  # Webmail Redirect (Namecheap cPanel)
+  RewriteRule ^webmail/?$ https://eagleloans.site:2096 [L,R=301]
+
   # Handle React Router - Send all requests to index.html
   RewriteRule ^index\.html$ - [L]
   RewriteCond %{REQUEST_FILENAME} !-f
