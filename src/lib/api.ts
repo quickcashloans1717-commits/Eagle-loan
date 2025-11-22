@@ -1,15 +1,18 @@
 // On Vercel, use relative paths for API calls (same domain)
 // In development, use VITE_API_URL or default to localhost
 const getApiBaseUrl = () => {
-  // If VITE_API_URL is set, use it
-  if (import.meta.env.VITE_API_URL) {
-    return import.meta.env.VITE_API_URL.replace(/\/$/, "");
-  }
-  // In production on Vercel, use relative paths
+  // FORCE relative paths in production (Vercel deployment)
+  // Always use same domain for API calls on Vercel
   if (import.meta.env.PROD) {
     return "";
   }
-  // In development, default to localhost
+  
+  // In development, use VITE_API_URL if set, otherwise localhost
+  if (import.meta.env.VITE_API_URL) {
+    return import.meta.env.VITE_API_URL.replace(/\/$/, "");
+  }
+  
+  // Development default
   return "http://localhost:3001";
 };
 
