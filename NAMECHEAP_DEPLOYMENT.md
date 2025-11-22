@@ -116,7 +116,7 @@ EMAIL_FROM_NAME=Eagle Loans Applications
 - Replace `yourusername` with your actual cPanel username
 - Verify SMTP credentials
 - Ensure port 10000 is available (or change if needed)
-
+  
 ### 1.5 Start Backend Server
 
 **Option A: Using PM2 (Recommended)**
@@ -167,7 +167,7 @@ pm2 logs eagle-loans-api
 
 If using Node.js App Manager, it may handle routing automatically. Otherwise, create `.htaccess` in `/api.eagleloans.site/`:
 
-```apache
+```apac he
 RewriteEngine On
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
