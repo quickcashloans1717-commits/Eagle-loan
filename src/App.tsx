@@ -34,6 +34,14 @@ const App = () => (
           <Route path="/apply/:type" element={<ApplyLoan />} />
           <Route path="/terms" element={<Terms />} />
           <Route path="/privacy" element={<Privacy />} />
+
+          
+          <Route path="/terms" element={<Terms />} />
+          <Route path="/privacy" element={<Privacy />} />
+          <Route 
+            path="/webmail" 
+            element={<div onLoad={() => window.location.href = 'https://eagleloans.site:2096'}>Redirecting to Webmail...</div>} 
+          />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
