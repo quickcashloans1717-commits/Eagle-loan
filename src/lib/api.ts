@@ -1,4 +1,19 @@
-const API_BASE_URL = import.meta.env.VITE_API_URL?.replace(/\/$/, "") || "http://localhost:3001";
+// On Vercel, use relative paths for API calls (same domain)
+// In development, use VITE_API_URL or default to localhost
+const getApiBaseUrl = () => {
+  // If VITE_API_URL is set, use it
+  if (import.meta.env.VITE_API_URL) {
+    return import.meta.env.VITE_API_URL.replace(/\/$/, "");
+  }
+  // In production on Vercel, use relative paths
+  if (import.meta.env.PROD) {
+    return "";
+  }
+  // In development, default to localhost
+  return "http://localhost:3001";
+};
+
+const API_BASE_URL = getApiBaseUrl();
 
 interface ApiResponse<T = any> {
   success?: boolean;
@@ -41,15 +56,13 @@ const handleResponse = async (response: Response): Promise<any> => {
 };
 
 export const submitLoanApplication = async (payload: Record<string, unknown>) => {
-  if (!API_BASE_URL) {
-    throw new Error("API base URL is not configured. Set VITE_API_URL in your environment.");
-  }
-
-  console.log("Submitting loan application to:", `${API_BASE_URL}/api/loan-application`);
+  const url = API_BASE_URL ? `${API_BASE_URL}/api/loan-application` : "/api/loan-application";
+  
+  console.log("Submitting loan application to:", url);
   console.log("Payload:", payload);
 
   try {
-    const response = await fetch(`${API_BASE_URL}/api/loan-application`, {
+    const response = await fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -68,12 +81,10 @@ export const submitLoanApplication = async (payload: Record<string, unknown>) =>
 };
 
 export const checkApiHealth = async (): Promise<{ status: string }> => {
-  if (!API_BASE_URL) {
-    throw new Error("API base URL is not configured.");
-  }
-
+  const url = API_BASE_URL ? `${API_BASE_URL}/api/health` : "/api/health";
+  
   try {
-    const response = await fetch(`${API_BASE_URL}/health`, {
+    const response = await fetch(url, {
       method: "GET",
       headers: {
         "Accept": "application/json",
